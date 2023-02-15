@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: wordpress
+    app: wordpress
+  name: wordpress
+  namespace: friha-exo
+spec:
+  containers:
+  - image: wordpress:4.8-apache
+    name: wordpress
+    envFrom:
+      - configMapRef:
+          name: wordpress-cm
+    resources: {}
+    volumeMounts:
+    - name: file
+      mountPath : "/var/www/html"
+  volumes:
+    - name: file
+      persistentVolumeClaim:
+        claimName: azurefile
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
